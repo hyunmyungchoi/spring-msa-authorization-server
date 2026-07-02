@@ -1,4 +1,4 @@
-package com.springmsa.authserver.otp.common;
+package com.springmsa.authserver.login;
 
 import com.springmsa.authserver.client.dto.AuthUserResponse;
 import com.springmsa.authserver.security.CustomUserPrincipal;
@@ -8,8 +8,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.FactorGrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 
@@ -18,15 +16,13 @@ import java.util.Collection;
 import java.util.Set;
 
 @Component
-public class OtpAuthenticationFactory {
+public class LoginAuthenticationFactory {
 
-    public Authentication createAuthentication(
+    public Authentication createPasswordAuthentication(
             AuthUserResponse user,
-            HttpServletRequest request,
-            String factorAuthority
+            HttpServletRequest request
     ) {
         Set<String> roles = user.roles() == null ? Set.of() : user.roles();
-
         Collection<GrantedAuthority> authorities = new ArrayList<>();
 
         roles.stream()
@@ -34,7 +30,7 @@ public class OtpAuthenticationFactory {
                 .forEach(authorities::add);
 
         authorities.add(
-                FactorGrantedAuthority.fromAuthority(factorAuthority)
+                FactorGrantedAuthority.fromAuthority(FactorGrantedAuthority.PASSWORD_AUTHORITY)
         );
 
         CustomUserPrincipal principal = new CustomUserPrincipal(

@@ -1,4 +1,4 @@
-package com.springmsa.authserver.otp.common;
+package com.springmsa.authserver.login;
 
 import com.springmsa.authserver.client.dto.AuthUserResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -6,7 +6,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.authority.FactorGrantedAuthority;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 import org.springframework.security.web.savedrequest.RequestCache;
@@ -14,26 +13,18 @@ import org.springframework.security.web.savedrequest.SavedRequest;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OtpLoginSessionService {
+public class LoginSessionService {
 
-    private final OtpAuthenticationFactory otpAuthenticationFactory;
+    private final LoginAuthenticationFactory loginAuthenticationFactory;
     private final SecurityContextRepository securityContextRepository;
     private final RequestCache requestCache = new HttpSessionRequestCache();
 
-    public OtpLoginSessionService(
-            OtpAuthenticationFactory otpAuthenticationFactory,
+    public LoginSessionService(
+            LoginAuthenticationFactory loginAuthenticationFactory,
             SecurityContextRepository securityContextRepository
     ) {
-        this.otpAuthenticationFactory = otpAuthenticationFactory;
+        this.loginAuthenticationFactory = loginAuthenticationFactory;
         this.securityContextRepository = securityContextRepository;
-    }
-
-    public String login(
-            AuthUserResponse user,
-            HttpServletRequest request,
-            HttpServletResponse response
-    ) {
-        return login(user, request, response, FactorGrantedAuthority.OTT_AUTHORITY);
     }
 
     public String loginWithPassword(
@@ -41,17 +32,8 @@ public class OtpLoginSessionService {
             HttpServletRequest request,
             HttpServletResponse response
     ) {
-        return login(user, request, response, FactorGrantedAuthority.PASSWORD_AUTHORITY);
-    }
-
-    private String login(
-            AuthUserResponse user,
-            HttpServletRequest request,
-            HttpServletResponse response,
-            String factorAuthority
-    ) {
         Authentication authentication =
-                otpAuthenticationFactory.createAuthentication(user, request, factorAuthority);
+                loginAuthenticationFactory.createPasswordAuthentication(user, request);
 
         SecurityContext securityContext = SecurityContextHolder.createEmptyContext();
         securityContext.setAuthentication(authentication);

@@ -1,18 +1,18 @@
-package com.springmsa.authserver.otp.dto;
+package com.springmsa.authserver.login;
 
 import com.springmsa.authserver.client.dto.AuthUserResponse;
 
 import java.util.Set;
 
-public record OtpUserResponse(
+public record LoginUserResponse(
         Long userId,
         String loginId,
         String email,
         String username,
         Set<String> roles
 ) {
-    public static OtpUserResponse from(AuthUserResponse user) {
-        return new OtpUserResponse(
+    public static LoginUserResponse from(AuthUserResponse user) {
+        return new LoginUserResponse(
                 user.userId(),
                 user.loginId(),
                 user.email(),

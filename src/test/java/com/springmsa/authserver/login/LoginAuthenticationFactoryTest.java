@@ -1,4 +1,4 @@
-package com.springmsa.authserver.otp.common;
+package com.springmsa.authserver.login;
 
 import com.springmsa.authserver.client.dto.AuthUserResponse;
 import org.junit.jupiter.api.Test;
@@ -11,34 +11,20 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-class OtpAuthenticationFactoryTest {
+class LoginAuthenticationFactoryTest {
 
-    private final OtpAuthenticationFactory factory = new OtpAuthenticationFactory();
+    private final LoginAuthenticationFactory factory = new LoginAuthenticationFactory();
 
     @Test
     void createsPasswordFactorAuthentication() {
-        Authentication authentication = factory.createAuthentication(
+        Authentication authentication = factory.createPasswordAuthentication(
                 authUser(),
-                new MockHttpServletRequest(),
-                FactorGrantedAuthority.PASSWORD_AUTHORITY
+                new MockHttpServletRequest()
         );
 
         assertThat(authorities(authentication))
                 .contains("ROLE_USER", FactorGrantedAuthority.PASSWORD_AUTHORITY)
                 .doesNotContain(FactorGrantedAuthority.OTT_AUTHORITY);
-    }
-
-    @Test
-    void createsOneTimeTokenFactorAuthentication() {
-        Authentication authentication = factory.createAuthentication(
-                authUser(),
-                new MockHttpServletRequest(),
-                FactorGrantedAuthority.OTT_AUTHORITY
-        );
-
-        assertThat(authorities(authentication))
-                .contains("ROLE_USER", FactorGrantedAuthority.OTT_AUTHORITY)
-                .doesNotContain(FactorGrantedAuthority.PASSWORD_AUTHORITY);
     }
 
     private AuthUserResponse authUser() {
