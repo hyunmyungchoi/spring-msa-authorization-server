@@ -1,4 +1,4 @@
-package com.springmsa.authserver.client.dto;
+package com.springmsa.authserver.user.dto;
 
 import java.util.Set;
 

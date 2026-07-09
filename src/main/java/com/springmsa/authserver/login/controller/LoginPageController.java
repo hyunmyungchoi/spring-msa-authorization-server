@@ -1,4 +1,4 @@
-package com.springmsa.authserver.login;
+package com.springmsa.authserver.login.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

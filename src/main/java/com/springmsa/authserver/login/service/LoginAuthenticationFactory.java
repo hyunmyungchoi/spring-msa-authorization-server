@@ -1,7 +1,7 @@
-package com.springmsa.authserver.login;
+package com.springmsa.authserver.login.service;
 
-import com.springmsa.authserver.client.dto.AuthUserResponse;
 import com.springmsa.authserver.security.CustomUserPrincipal;
+import com.springmsa.authserver.user.dto.AuthUserResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

@@ -1,6 +1,7 @@
-package com.springmsa.authserver.client;
+package com.springmsa.authserver.user.client;
 
-import com.springmsa.authserver.client.dto.AuthUserResponse;
+import com.springmsa.authserver.user.dto.AuthUserResponse;
+import com.springmsa.common.web.response.MsaResponse;
 import feign.FeignException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
@@ -18,7 +19,7 @@ public class UserServiceClient {
 
     public AuthUserResponse findAuthUserByLoginId(String loginId) {
         try {
-            return userServiceFeignClient.findAuthUserByLoginId(loginId);
+            return requireData(userServiceFeignClient.findAuthUserByLoginId(loginId));
         } catch (FeignException e) {
             throw toResponseStatusException(e, "User not found");
         }
@@ -26,10 +27,18 @@ public class UserServiceClient {
 
     public AuthUserResponse findAuthUserByEmail(String email) {
         try {
-            return userServiceFeignClient.findAuthUserByEmail(email);
+            return requireData(userServiceFeignClient.findAuthUserByEmail(email));
         } catch (FeignException e) {
             throw toResponseStatusException(e, "User not found by email");
         }
+    }
+
+    private AuthUserResponse requireData(MsaResponse<AuthUserResponse> response) {
+        if (response == null || response.data() == null) {
+            throw new ResponseStatusException(HttpStatus.BAD_GATEWAY, "User service returned an empty response");
+        }
+
+        return response.data();
     }
 
     private ResponseStatusException toResponseStatusException(FeignException exception, String clientErrorReason) {
