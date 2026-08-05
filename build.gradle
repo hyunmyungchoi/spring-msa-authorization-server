@@ -15,7 +15,7 @@ java {
 }
 
 dependencies {
-implementation 'com.springmsa:spring-msa-common-web:0.0.1-SNAPSHOT'
+implementation 'com.springmsa:spring-msa-common-web:0.1.0'
 
 implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 implementation 'org.springframework.boot:spring-boot-starter-actuator'
@@ -54,3 +54,4 @@ tasks.named('test') {
 dependencyLocking {
     lockAllConfigurations()
 }
+
