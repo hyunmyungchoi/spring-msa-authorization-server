@@ -19,6 +19,7 @@ implementation 'com.springmsa:spring-msa-common-web:0.1.0'
 
 implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 implementation 'org.springframework.boot:spring-boot-starter-actuator'
+runtimeOnly 'io.micrometer:micrometer-registry-prometheus'
 implementation 'org.springframework.boot:spring-boot-starter-oauth2-authorization-server'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 

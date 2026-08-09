@@ -98,7 +98,7 @@ public class SecurityConfig {
                         .securityContextRepository(securityContextRepository)
                 )
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(LOGIN_PAGE, "/login/**", "/error", "/actuator/health", "/actuator/health/**").permitAll()
+                        .requestMatchers(LOGIN_PAGE, "/login/**", "/error", "/actuator/health", "/actuator/health/**", "/actuator/prometheus").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin(form -> form
